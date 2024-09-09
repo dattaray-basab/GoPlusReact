@@ -1,0 +1,52 @@
+# React/TypeScript (my-app)
+/my-app/node_modules
+/my-app/.pnp
+/my-app/.pnp.js
+/my-app/coverage
+/my-app/build
+/my-app/.env.local
+/my-app/.env.development.local
+/my-app/.env.test.local
+/my-app/.env.production.local
+/my-app/npm-debug.log*
+/my-app/yarn-debug.log*
+/my-app/yarn-error.log*
+/my-app/.eslintcache
+
+# Golang (my-server)
+/my-server/my-server
+/my-server/*.exe
+/my-server/*.exe~
+/my-server/*.dll
+/my-server/*.so
+/my-server/*.dylib
+/my-server/*.test
+/my-server/*.out
+/my-server/go.sum
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment files
+.env
+*.env
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
