@@ -21,3 +21,29 @@ services:
     volumes:
       - ./siteConfig.json:/app/siteConfig.json
     restart: "no"
+
+############################################
+
+# version: '3'
+# services:
+#   server:
+#     build: 
+#       context: ./my-server
+#       dockerfile: Dockerfile
+#     ports:
+#       - "${HOST_SERVER_PORT}:${CONTAINER_SERVER_PORT}"
+#     environment:
+#       - CONFIG_PATH=/app/siteConfig.json
+#     volumes:
+#       - ./siteConfig.json:/app/siteConfig.json
+#     restart: "no"
+
+#   app:
+#     build:
+#       context: ./my-app
+#       dockerfile: Dockerfile
+#     ports:
+#       - "${HOST_APP_PORT}:${CONTAINER_APP_PORT}"
+#     volumes:
+#       - ./siteConfig.json:/app/siteConfig.json
+#     restart: "no"
