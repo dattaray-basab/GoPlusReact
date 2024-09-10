@@ -1,3 +1,4 @@
+
 { pkgs ? import <nixpkgs> {} }:
 
 {
@@ -5,7 +6,7 @@
     pname = "my-server";
     version = "0.1.0";
     src = ./my-server;
-    vendorHash = null;
+    vendorHash = null;  # Use the correct hash if you're using vendoring
   };
 
   my-app = pkgs.mkYarnPackage {
