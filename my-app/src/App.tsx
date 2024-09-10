@@ -3,8 +3,8 @@ import DisplayJsonComponent from "./DisplayJsonComponent";
 import SaveJsonComponent from "./SaveJsonComponent";
 
 function App() {
-  const serverBaseUrl = process.env.HOST_SERVER_PORT;
-  const hostServerPort = process.env.REACT_APP_HOST_SERVER_PORT;
+  const serverBaseUrl = process.env.SERVER_BASE_URL;
+  const hostServerPort = process.env.HOST_SERVER_PORT;
 
   if (!serverBaseUrl || !hostServerPort) {
     console.error(
