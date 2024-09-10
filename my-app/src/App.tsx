@@ -1,59 +1,26 @@
-// import DisplayJsonComponent from "./DisplayJsonComponent";
-// import SaveJsonComponent from "./SaveJsonComponent";
 
-
-// function App() {
-//   return (
-//     <div className='App'>
-//       <h1>JSON File Operations</h1>
-//       <SaveJsonComponent />
-//       <hr />
-//       <DisplayJsonComponent />
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React, { useState, useEffect } from "react";
-import fs from "fs";
-import path from "path";
 import DisplayJsonComponent from "./DisplayJsonComponent";
 import SaveJsonComponent from "./SaveJsonComponent";
 
-interface Config {
-  SERVER_BASE_URL: string;
-  HOST_SERVER_PORT: number;
-}
-
 function App() {
-  const [serverBaseUrl, setServerBaseUrl] = useState<string | null>(null);
+  const serverBaseUrl = process.env.REACT_APP_SERVER_BASE_URL;
+  const hostServerPort = process.env.REACT_APP_HOST_SERVER_PORT;
 
-  useEffect(() => {
-    try {
-      // Read and parse the JSON file synchronously
-      const configPath = path.join(process.cwd(), "siteConfig.json");
-      const rawConfig = fs.readFileSync(configPath, "utf8");
-      const config: Config = JSON.parse(rawConfig);
-
-      const baseUrl = `${config.SERVER_BASE_URL}:${config.HOST_SERVER_PORT}`;
-      setServerBaseUrl(baseUrl);
-    } catch (error) {
-      console.error("Error loading config:", error);
-      // Handle error appropriately
-    }
-  }, []);
-
-  if (!serverBaseUrl) {
-    return <div>Loading configuration...</div>;
+  if (!serverBaseUrl || !hostServerPort) {
+    console.error(
+      "Missing environment variables: REACT_APP_SERVER_BASE_URL or REACT_APP_HOST_SERVER_PORT"
+    );
+    return <div>Error: Missing configuration</div>;
   }
+
+  const fullServerUrl = `${serverBaseUrl}:${hostServerPort}`;
 
   return (
     <div className='App'>
       <h1>JSON File Operations</h1>
-      <SaveJsonComponent serverBaseUrl={serverBaseUrl} />
+      <SaveJsonComponent serverBaseUrl={fullServerUrl} />
       <hr />
-      <DisplayJsonComponent serverBaseUrl={serverBaseUrl} />
+      <DisplayJsonComponent serverBaseUrl={fullServerUrl} />
     </div>
   );
 }

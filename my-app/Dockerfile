@@ -1,25 +1,22 @@
+# my-app is the root directory of the project
 
 FROM node:16
 
 WORKDIR /app
 
-# Copy the export script and siteConfig.json
-COPY export_config.sh siteConfig.json ./
 
-# Install jq
-RUN apt-get update && apt-get install -y jq
 
-# Run the export script to set environment variables
-RUN chmod +x export_config.sh && . ./export_config.sh
-
-COPY package.json yarn.lock ./
-
+COPY package.json yarn.lock* ./
 RUN yarn install
 
 COPY . .
 
-RUN yarn build
+# Add this line after COPY . .
+COPY .env ./
 
-EXPOSE ${CONTAINER_APP_PORT}
+RUN chmod +x set_env.sh
 
-CMD ["yarn", "start"]
+ENV PORT=${CONTAINER_APP_PORT}
+EXPOSE ${PORT}
+
+CMD ["/bin/sh", "-c", "source ./set_env.sh && yarn start"]

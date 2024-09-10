@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -19,14 +18,14 @@ type Config struct {
 
 func loadConfig() (Config, error) {
 	var config Config
-	configPath, err := filepath.Abs("../siteConfig.json")
-	if err != nil {
-		return config, fmt.Errorf("failed to get absolute path: %v", err)
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		return config, fmt.Errorf("CONFIG_PATH environment variable is not set")
 	}
 
 	file, err := os.ReadFile(configPath)
 	if err != nil {
-		return config, fmt.Errorf("failed to read config file: %v", err)
+		return config, fmt.Errorf("failed to read config file at %s: %v", configPath, err)
 	}
 
 	err = json.Unmarshal(file, &config)
@@ -44,6 +43,12 @@ func main() {
 	}
 
 	r := gin.Default()
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{fmt.Sprintf("%s:%d", config.AppBaseURL, config.HostAppPort)}

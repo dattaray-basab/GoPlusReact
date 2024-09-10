@@ -1,20 +1,23 @@
-
 version: '3'
 services:
   server:
     build: 
-      context: .
-      dockerfile: my-server/Dockerfile
+      context: ./my-server
+      dockerfile: Dockerfile
     ports:
       - "${HOST_SERVER_PORT}:${CONTAINER_SERVER_PORT}"
     environment:
       - CONFIG_PATH=/app/siteConfig.json
+    volumes:
+      - ./siteConfig.json:/app/siteConfig.json
+    restart: "no"
 
   app:
     build:
-      context: .
-      dockerfile: my-app/Dockerfile
+      context: ./my-app
+      dockerfile: Dockerfile
     ports:
       - "${HOST_APP_PORT}:${CONTAINER_APP_PORT}"
-    environment:
-      - REACT_APP_CONFIG_PATH=/app/siteConfig.json
+    volumes:
+      - ./siteConfig.json:/app/siteConfig.json
+    restart: "no"
