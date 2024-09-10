@@ -1,10 +1,49 @@
+# version: '3'
+# services:
+#   my-server:
+#     build: ./my-server
+#     ports:
+#       - "${CONFIG_MY_SERVER_PORT}:${CONFIG_MY_SERVER_PORT}"
+#     environment:
+#       - PORT=${CONFIG_MY_SERVER_PORT}
+#       - CORS_ALLOWED_ORIGINS=${CONFIG_MY_SERVER_CORS_ALLOWED_ORIGINS}
+
+#   my-app:
+#     build: ./my-app
+#     ports:
+#       - "${CONFIG_MY_APP_PORT}:${CONFIG_MY_APP_PORT}"
+#     environment:
+#       - PORT=${CONFIG_MY_APP_PORT}
+#       - REACT_APP_API_URL=${CONFIG_MY_APP_API_URL}
+
+#   my-express:
+#     build: ./my-express
+#     ports:
+#       - "${CONFIG_MY_EXPRESS_PORT}:${CONFIG_MY_EXPRESS_PORT}"
+#     environment:
+#       - PORT=${CONFIG_MY_EXPRESS_PORT}
+
 version: '3'
 services:
-  server:
+  my-server:
     build: ./my-server
     ports:
-      - "8080:8080"
-  app:
+      - "${CONFIG_MY_SERVER_PORT:-8080}:${CONFIG_MY_SERVER_PORT:-8080}"
+    environment:
+      - PORT=${CONFIG_MY_SERVER_PORT:-8080}
+      - CORS_ALLOWED_ORIGINS=${CONFIG_MY_SERVER_CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+
+  my-app:
     build: ./my-app
     ports:
-      - "3000:3000"
+      - "${CONFIG_MY_APP_PORT:-3000}:${CONFIG_MY_APP_PORT:-3000}"
+    environment:
+      - PORT=${CONFIG_MY_APP_PORT:-3000}
+      - REACT_APP_API_URL=${CONFIG_MY_APP_API_URL:-http://localhost:8080}
+
+  my-express:
+    build: ./my-express
+    ports:
+      - "${CONFIG_MY_EXPRESS_PORT:-5000}:${CONFIG_MY_EXPRESS_PORT:-5000}"
+    environment:
+      - PORT=${CONFIG_MY_EXPRESS_PORT:-5000}
