@@ -14,6 +14,6 @@ COPY . .
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -v -o main .
 
-EXPOSE 8081
+EXPOSE 8080
 
 CMD ["./main"]

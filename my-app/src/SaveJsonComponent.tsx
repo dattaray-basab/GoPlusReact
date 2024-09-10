@@ -1,7 +1,15 @@
+// SaveJsonComponent.tsx
+
 import React, { useState } from "react";
 import axios from "axios";
 
-const SaveJsonComponent: React.FC = () => {
+interface SaveJsonComponentProps {
+  serverBaseUrl: string;
+}
+
+const SaveJsonComponent: React.FC<SaveJsonComponentProps> = ({
+  serverBaseUrl,
+}) => {
   const [jsonData, setJsonData] = useState("");
   const [directory, setDirectory] = useState("");
   const [fileName, setFileName] = useState("");
@@ -9,7 +17,7 @@ const SaveJsonComponent: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/save", {
+      const response = await axios.post(`${serverBaseUrl}/api/save`, {
         jsonData: JSON.parse(jsonData),
         directory,
         fileName,
