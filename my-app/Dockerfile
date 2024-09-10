@@ -11,11 +11,6 @@ RUN yarn install
 
 COPY . .
 
-# Add this line after COPY . .
-COPY .env ./
-
-RUN chmod +x set_env.sh
-
 ENV PORT=${CONTAINER_APP_PORT}
 EXPOSE ${PORT}
 
