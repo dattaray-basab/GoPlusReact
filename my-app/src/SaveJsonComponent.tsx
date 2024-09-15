@@ -1,23 +1,34 @@
-// src/SaveJsonComponent.tsx
+// SaveJsonComponent.tsx
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import config from "./config";
 
 const SaveJsonComponent: React.FC = () => {
   const [jsonData, setJsonData] = useState("");
   const [directory, setDirectory] = useState("");
   const [fileName, setFileName] = useState("");
-  const [serverUrl, setServerUrl] = useState("");
+  const [serverUrl, setServerUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Use server1 configuration, you can change this to server2 if needed
-    const { host, port } = config.server1;
-    setServerUrl(`http://${host}:${port}`);
+    const host = process.env.REACT_APP_cks_SERVER1_HOST;
+    const port = process.env.REACT_APP_cks_SERVER1_PORT;
+
+    if (!host || !port) {
+      setError(
+        "SaveJsonComponent: Server configuration is missing. Please check environment variables."
+      );
+    } else {
+      setServerUrl(`http://${host}:${port}`);
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!serverUrl) {
+      setError("Server URL is not set. Cannot proceed with the request.");
+      return;
+    }
     try {
       const response = await axios.post(`${serverUrl}/api/save`, {
         jsonData: JSON.parse(jsonData),
@@ -30,6 +41,10 @@ const SaveJsonComponent: React.FC = () => {
       console.error(error);
     }
   };
+
+  if (error) {
+    return <div className='error'>{error}</div>;
+  }
 
   return (
     <div>
@@ -59,7 +74,9 @@ const SaveJsonComponent: React.FC = () => {
             onChange={(e) => setFileName(e.target.value)}
           />
         </div>
-        <button type='submit'>Save</button>
+        <button type='submit' disabled={!serverUrl}>
+          Save
+        </button>
       </form>
     </div>
   );

@@ -1,10 +1,25 @@
 {
+  "app1": {
     "server1": {
-        "port": 8080,
-        "host": "localhost"
-    },
-    "server2": {
-        "port": 8081,
-        "host": "localhost"
+      "port": 8080,
+      "host": "localhost",
+      "gen_env": {
+        "directive": "react_flag_only"
+      }
     }
+  },
+  "server2": {
+    "port": 8081,
+    "host": "localhost",
+    "gen_env": {
+      "directive": "react_flag_and_server"
+    }
+  },
+  "server3": {
+    "port": 8082,
+    "host": "localhost",
+    "gen_env": {
+      "directive": "server_only"
+    }
+  }
 }
