@@ -53,10 +53,9 @@ to_upper() {
 
 # Function to set environment variables
 set_env_vars() {
-    local prefix=$1
-    local key=$2
-    local value=$3
-    local directive=$4
+    local key=$1
+    local value=$2
+    local directive=$3
 
     case $directive in
         "react_flag_only")
@@ -91,7 +90,7 @@ process_server() {
                 local value=$(echo "$server_obj" | jq -r ".$key")
                 local upper_server_name=$(to_upper "$server_name")
                 local upper_key=$(to_upper "$key")
-                set_env_vars "" "${upper_server_name}_${upper_key}" "$value" "$directive"
+                set_env_vars "${upper_server_name}_${upper_key}" "$value" "$directive"
             fi
         done
     fi
@@ -118,7 +117,3 @@ for key in $(echo "$config" | jq -r 'keys[]'); do
         fi
     fi
 done
-
-# Print all set environment variables
-log_verbose "Printing all set environment variables:"
-env | grep cks_
