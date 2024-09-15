@@ -1,0 +1,10 @@
+{
+    "server1": {
+        "port": 8080,
+        "host": "localhost"
+    },
+    "server2": {
+        "port": 8081,
+        "host": "localhost"
+    }
+}

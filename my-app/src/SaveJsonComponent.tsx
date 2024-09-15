@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+// src/SaveJsonComponent.tsx
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import config from "./config";
 
 const SaveJsonComponent: React.FC = () => {
   const [jsonData, setJsonData] = useState("");
   const [directory, setDirectory] = useState("");
   const [fileName, setFileName] = useState("");
+  const [serverUrl, setServerUrl] = useState("");
+
+  useEffect(() => {
+    // Use server1 configuration, you can change this to server2 if needed
+    const { host, port } = config.server1;
+    setServerUrl(`http://${host}:${port}`);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/save", {
+      const response = await axios.post(`${serverUrl}/api/save`, {
         jsonData: JSON.parse(jsonData),
         directory,
         fileName,
