@@ -7,8 +7,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const host = process.env.REACT_APP_cks_EXPRESS_HOST;
-    const port = process.env.REACT_APP_cks_EXPRESS_PORT;
+    const host = process.env.REACT_APP_cks_GIN_HOST;
+    const port = process.env.REACT_APP_cks_GIN_PORT;
 
     if (!host || !port) {
       setError(
