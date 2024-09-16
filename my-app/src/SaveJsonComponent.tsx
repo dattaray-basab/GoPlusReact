@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-const SaveJsonComponent: React.FC = () => {
+interface SaveJsonComponentProps {
+  serverUrl: string;
+}
+
+const SaveJsonComponent: React.FC<SaveJsonComponentProps> = ({ serverUrl }) => {
   const [jsonData, setJsonData] = useState("");
   const [directory, setDirectory] = useState("");
   const [fileName, setFileName] = useState("");
-  const [serverUrl, setServerUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const host = process.env.REACT_APP_cks_SERVER1_HOST;
-    const port = process.env.REACT_APP_cks_SERVER1_PORT;
-
-    if (!host || !port) {
-      setError(
-        "SaveJsonComponent: Server configuration is missing. Please check environment variables."
-      );
-    } else {
-      setServerUrl(`http://${host}:${port}`);
-    }
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!serverUrl) {
-      setError("Server URL is not set. Cannot proceed with the request.");
-      return;
-    }
     if (!jsonData || !directory || !fileName) {
       setError("Please fill in all fields.");
       return;
@@ -63,13 +49,10 @@ const SaveJsonComponent: React.FC = () => {
     }
   };
 
-  if (error) {
-    return <div className='error'>{error}</div>;
-  }
-
   return (
     <div>
       <h2>Save JSON to File</h2>
+      {error && <div className='error'>{error}</div>}
       {successMessage && <div className='success'>{successMessage}</div>}
       <form onSubmit={handleSubmit}>
         <div>
@@ -99,7 +82,7 @@ const SaveJsonComponent: React.FC = () => {
             required
           />
         </div>
-        <button type='submit' disabled={!serverUrl || isLoading}>
+        <button type='submit' disabled={isLoading}>
           {isLoading ? "Saving..." : "Save"}
         </button>
       </form>

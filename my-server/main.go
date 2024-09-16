@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -105,6 +106,19 @@ func main() {
 		c.JSON(http.StatusOK, jsonData)
 	})
 
-	log.Printf("Starting server on :8080")
-	log.Fatal(r.Run(":8080"))
+	    // Get the port from the environment variable
+    port := os.Getenv("REACT_APP_cks_GIN_PORT")
+    if port == "" {
+        port = "8080" // Default port if not set
+    }
+
+    // Validate that the port is a valid integer
+    _, err := strconv.Atoi(port)
+    if err != nil {
+        log.Fatalf("Invalid port number: %s", port)
+    }
+
+    log.Printf("Starting server on :%s", port)
+    log.Fatal(r.Run(":" + port))
+
 }

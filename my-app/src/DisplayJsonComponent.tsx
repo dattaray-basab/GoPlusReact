@@ -1,54 +1,53 @@
-// DisplayJsonComponent.tsx
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-const DisplayJsonComponent: React.FC = () => {
+interface DisplayJsonComponentProps {
+  serverUrl: string;
+}
+
+const DisplayJsonComponent: React.FC<DisplayJsonComponentProps> = ({
+  serverUrl,
+}) => {
   const [directory, setDirectory] = useState("");
   const [fileName, setFileName] = useState("");
   const [jsonData, setJsonData] = useState<any>(null);
-  const [serverUrl, setServerUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const host = process.env.REACT_APP_cks_SERVER1_HOST;
-    const port = process.env.REACT_APP_cks_SERVER1_PORT;
-
-    if (!host || !port) {
-      setError(
-        "DisplayJsonComponent: Server configuration is missing. Please check environment variables."
-      );
-    } else {
-      setServerUrl(`http://${host}:${port}`);
-    }
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFetch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!serverUrl) {
-      setError("Server URL is not set. Cannot proceed with the request.");
+    if (!directory || !fileName) {
+      setError("Please fill in both directory and file name.");
       return;
     }
+    setError(null);
+    setJsonData(null);
+    setIsLoading(true);
     try {
       const response = await axios.get(
-        `${serverUrl}/api/fetch?directory=${directory}&fileName=${fileName}`
+        `${serverUrl}/api/fetch?directory=${encodeURIComponent(
+          directory
+        )}&fileName=${encodeURIComponent(fileName)}`
       );
       setJsonData(response.data);
-      setError(null);
     } catch (error) {
-      setError("Error fetching data");
+      if (axios.isAxiosError(error) && error.response) {
+        setError(
+          `Error fetching data: ${error.response.data.error || error.message}`
+        );
+      } else {
+        setError("Error fetching data");
+      }
       console.error(error);
-      setJsonData(null);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (error) {
-    return <div className='error'>{error}</div>;
-  }
 
   return (
     <div>
       <h2>Display JSON from File</h2>
+      {error && <div className='error'>{error}</div>}
       <form onSubmit={handleFetch}>
         <div>
           <label>Directory:</label>
@@ -56,6 +55,7 @@ const DisplayJsonComponent: React.FC = () => {
             type='text'
             value={directory}
             onChange={(e) => setDirectory(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -64,10 +64,11 @@ const DisplayJsonComponent: React.FC = () => {
             type='text'
             value={fileName}
             onChange={(e) => setFileName(e.target.value)}
+            required
           />
         </div>
-        <button type='submit' disabled={!serverUrl}>
-          Fetch
+        <button type='submit' disabled={isLoading}>
+          {isLoading ? "Fetching..." : "Fetch"}
         </button>
       </form>
       {jsonData && (

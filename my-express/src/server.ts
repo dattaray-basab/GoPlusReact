@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 
 const app = express();
-const port = 8081;
+const port = process.env.REACT_APP_cks_EXPRESS_PORT;
 
 app.use(
   cors({
