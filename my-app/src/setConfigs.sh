@@ -68,13 +68,13 @@ set_environment_variables() {
 
         case $directive in
             "react_flag_only")
-                export REACT_APP_cks_${key}="$value"
-                log_verbose "Set REACT_APP_cks_${key}=$value"
+                export REACT_APP_cksGoPlusReact_${key}="$value"
+                log_verbose "Set REACT_APP_cksGoPlusReact_${key}=$value"
                 ;;
             "react_flag_and_server")
                 export cks_${key}="$value"
-                export REACT_APP_cks_${key}="$value"
-                log_verbose "Set cks_${key}=$value and REACT_APP_cks_${key}=$value"
+                export REACT_APP_cksGoPlusReact_${key}="$value"
+                log_verbose "Set cks_${key}=$value and REACT_APP_cksGoPlusReact_${key}=$value"
                 ;;
             "server_only")
                 export cks_${key}="$value"
@@ -130,7 +130,7 @@ set_environment_variables() {
     # Print all set environment variables
     log_verbose "Printing all set environment variables:"
     env | grep cks_
-    env | grep REACT_APP_cks_
+    env | grep REACT_APP_cksGoPlusReact_
 }
 
 # Run the main function

@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 
 const app = express();
-const port = process.env.REACT_APP_cks_EXPRESS_PORT;
+const port = process.env.REACT_APP_cksGoPlusReact_EXPRESS_PORT;
 
 app.use(
   cors({

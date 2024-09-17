@@ -107,7 +107,7 @@ func main() {
 	})
 
 	    // Get the port from the environment variable
-    port := os.Getenv("REACT_APP_cks_GIN_PORT")
+    port := os.Getenv("REACT_APP_cksGoPlusReact_GIN_PORT")
     if port == "" {
         port = "8080" // Default port if not set
     }

@@ -4,7 +4,7 @@ services:
     build: ./my-server
     ports:
       - "${
-      }:${REACT_APP_cks_GIN_PORT}"
+      }:${REACT_APP_cksGoPlusReact_GIN_PORT}"
   app:
     build: ./my-app
     ports:

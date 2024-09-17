@@ -11,11 +11,11 @@ function App() {
   const [port, setPort] = useState<string | null>(null);
 
   useEffect(() => {
-    let hostValue = process.env.REACT_APP_cks_EXPRESS_HOST;
-    let portValue = process.env.REACT_APP_cks_EXPRESS_PORT;
+    let hostValue = process.env.REACT_APP_cksGoPlusReact_EXPRESS_HOST;
+    let portValue = process.env.REACT_APP_cksGoPlusReact_EXPRESS_PORT;
     if (!IS_EXPRESS_SERVER) {
-      hostValue = process.env.REACT_APP_cks_GIN_HOST;
-      portValue = process.env.REACT_APP_cks_GIN_PORT;
+      hostValue = process.env.REACT_APP_cksGoPlusReact_GIN_HOST;
+      portValue = process.env.REACT_APP_cksGoPlusReact_GIN_PORT;
     }
 
     setHost(hostValue || null);
