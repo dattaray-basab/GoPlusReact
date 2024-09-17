@@ -66,6 +66,8 @@ return (
           type='text'
           value={directory}
           onChange={(e) => setDirectory(e.target.value)}
+          placeholder='_Data'
+          defaultValue='_Data'
           required
           className='mt-1 block w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
         />
@@ -81,6 +83,8 @@ return (
           type='text'
           value={fileName}
           onChange={(e) => setFileName(e.target.value)}
+          placeholder='x1.json'
+          defaultValue='x1.json'
           required
           className='mt-1 block w-full rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
         />
