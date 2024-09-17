@@ -56,11 +56,16 @@ function App() {
         </div>
       )}
       {serverUrl ? (
-        <>
-          <SaveJsonComponent serverUrl={serverUrl} />
-          <hr className='my-8 border-t border-gray-300' />
-          <DisplayJsonComponent serverUrl={serverUrl} />
-        </>
+        <div className='container mx-auto px-4'>
+          <div className='flex flex-col lg:flex-row lg:space-x-8'>
+            <div className='w-full lg:w-1/2 mb-8 lg:mb-0'>
+              <SaveJsonComponent serverUrl={serverUrl} />
+            </div>
+            <div className='w-full lg:w-1/2'>
+              <DisplayJsonComponent serverUrl={serverUrl} />
+            </div>
+          </div>
+        </div>
       ) : (
         <div className='text-gray-600 text-center text-lg'>
           Loading server configuration...
