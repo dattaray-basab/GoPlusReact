@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import DisplayJsonComponent from "./DisplayJsonComponent";
 import SaveJsonComponent from "./SaveJsonComponent";
 
+const IS_EXPRESS_SERVER = false; // Set this to true if using Express
+
 function App() {
   const [serverUrl, setServerUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [host, setHost] = useState<string | null>(null);
   const [port, setPort] = useState<string | null>(null);
 
+
   useEffect(() => {
-    const hostValue = process.env.REACT_APP_cks_EXPRESS_HOST;
-    const portValue = process.env.REACT_APP_cks_EXPRESS_PORT;
+    let hostValue = process.env.REACT_APP_cks_EXPRESS_HOST;
+    let portValue = process.env.REACT_APP_cks_EXPRESS_PORT;
+    if (!IS_EXPRESS_SERVER) {
+      hostValue = process.env.REACT_APP_cks_GIN_HOST;
+      portValue = process.env.REACT_APP_cks_GIN_PORT;
+    }
 
     setHost(hostValue || null);
     setPort(portValue || null);

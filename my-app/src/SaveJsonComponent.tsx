@@ -4,28 +4,31 @@ interface SaveJsonComponentProps {
   serverUrl: string;
 }
 
+interface Message {
+  type: "error" | "success";
+  content: string;
+}
+
 const SaveJsonComponent: React.FC<SaveJsonComponentProps> = ({ serverUrl }) => {
   const [jsonData, setJsonData] = useState("{}");
   const [directory, setDirectory] = useState("_Data");
   const [fileName, setFileName] = useState("x0.json");
-  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<Message | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!jsonData || !directory || !fileName) {
-      setError("Please fill in all fields.");
+      setMessage({ type: "error", content: "Please fill in all fields." });
       return;
     }
     try {
       JSON.parse(jsonData); // Validate JSON
     } catch (e) {
-      setError("Invalid JSON data.");
+      setMessage({ type: "error", content: "Invalid JSON data." });
       return;
     }
-    setError(null);
-    setSuccessMessage(null);
+    setMessage(null);
     setIsLoading(true);
     try {
       const response = await fetch(`${serverUrl}/api/save`, {
@@ -45,12 +48,15 @@ const SaveJsonComponent: React.FC<SaveJsonComponentProps> = ({ serverUrl }) => {
       }
 
       const data = await response.json();
-      setSuccessMessage(data.message);
+      setMessage({ type: "success", content: data.message });
     } catch (error) {
       if (error instanceof Error) {
-        setError(`Error saving data: ${error.message}`);
+        setMessage({
+          type: "error",
+          content: `Error saving data: ${error.message}`,
+        });
       } else {
-        setError("Error saving data");
+        setMessage({ type: "error", content: "Error saving data" });
       }
       console.error(error);
     } finally {
@@ -63,14 +69,14 @@ const SaveJsonComponent: React.FC<SaveJsonComponentProps> = ({ serverUrl }) => {
       <h2 className='text-2xl font-bold mb-6 text-center text-gray-800'>
         Save JSON to File
       </h2>
-      {error && (
-        <div className='bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded'>
-          {error}
-        </div>
-      )}
-      {successMessage && (
-        <div className='bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded'>
-          {successMessage}
+      {message && (
+        <div
+          className={`border-l-4 p-4 mb-4 rounded ${
+            message.type === "error"
+              ? "bg-red-100 border-red-500 text-red-700"
+              : "bg-green-100 border-green-500 text-green-700"
+          }`}>
+          <p className='whitespace-normal break-words'>{message.content}</p>
         </div>
       )}
       <form onSubmit={handleSubmit} className='space-y-6'>
