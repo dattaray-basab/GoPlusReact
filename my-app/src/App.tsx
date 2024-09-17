@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DisplayJsonComponent from "./DisplayJsonComponent";
 import SaveJsonComponent from "./SaveJsonComponent";
 
-const IS_EXPRESS_SERVER = false; // Set this to true if using Express
+const IS_EXPRESS_SERVER = true; // Set this to true if using Express
 
 function App() {
   const [serverUrl, setServerUrl] = useState<string | null>(null);
